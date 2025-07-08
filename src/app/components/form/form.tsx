@@ -1,0 +1,53 @@
+import React, {useEffect} from "react";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {Box, Button, FormControl, FormErrorMessage, FormLabel, Input, VStack} from "@chakra-ui/react";
+import {FormField} from "@/app/utils/types/form-field.type";
+
+interface FormProps {
+    formDefinition: FormField[];
+    type: "signup" | "login";
+    onSubmitCallback: (values: Record<string, any>) => void;
+    submitText?: string;
+}
+
+const Form: React.FC<FormProps> = ({
+                                       formDefinition,
+                                       type,
+                                       onSubmitCallback,
+                                       submitText
+                                   }) => {
+    const {register, handleSubmit, formState: {errors, isSubmitting}, reset} = useForm();
+
+    useEffect(() => {
+        reset();
+    }, [formDefinition, reset]);
+
+    const onSubmit: SubmitHandler<Record<string, any>> = (values) => {
+        onSubmitCallback(values);
+    };
+
+    return (
+        <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+            <VStack spacing={4} align="stretch">
+                {formDefinition.map((field) => (
+                    <FormControl key={field.name} isInvalid={!!errors[field.name]}>
+                        <FormLabel>{field.label}</FormLabel>
+                        <Input
+                            type={field.type}
+                            placeholder={field.placeholder || field.label}
+                            {...register(field.name, {required: field.required})}
+                        />
+                        <FormErrorMessage>
+                            {errors[field.name] && `${field.label} is required`}
+                        </FormErrorMessage>
+                    </FormControl>
+                ))}
+                <Button type="submit" colorScheme="blue" isLoading={isSubmitting} width="full">
+                    {submitText || (type === "signup" ? "Sign Up" : "Sign In")}
+                </Button>
+            </VStack>
+        </Box>
+    );
+};
+
+export default Form;
