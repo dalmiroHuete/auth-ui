@@ -1,176 +1,214 @@
-# Weather UI
+# Auth UI
 
-A modern React application that provides a user-friendly interface for the Weather API. This application allows users to search for addresses and get weather forecasts with a beautiful, responsive UI built with Next.js, Chakra UI, and React Query.
+A modern authentication system built with Next.js, featuring user registration, login, and protected routes. This application provides a clean and responsive user interface for managing user authentication with a robust backend integration.
 
-## 🚀 Features
+## Features
 
-- 🔐 **JWT Authentication** - Secure login with the Weather API
-- 📍 **Address Search** - Real-time address suggestions as you type
-- 🌤️ **Weather Forecast** - 7-day forecast with weather icons
-- 🎨 **Modern UI** - Beautiful interface built with Chakra UI
-- ⚡ **Performance** - Optimized with React Query for caching and state management
-- 📱 **Responsive** - Works perfectly on desktop and mobile devices
+- **User Authentication** - Secure login and registration system
+- **User Registration** - Complete signup flow with form validation
+- **Protected Routes** - Automatic redirection for authenticated/unauthenticated users
+- **Modern UI** - Beautiful interface built with Chakra UI
+- **Performance** - Optimized with React Query for data fetching
+- **Responsive** - Works perfectly on desktop and mobile devices
+- **Testing** - Comprehensive test coverage with Jest and React Testing Library
 
-## 🛠 Tech Stack
+## Tech Stack
 
-- [Next.js 15](https://nextjs.org/) - React framework
+- [Next.js 15](https://nextjs.org/) - React framework with App Router
 - [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
 - [Chakra UI](https://chakra-ui.com/) - Component library
 - [React Query](https://tanstack.com/query) - Data fetching and caching
-- [date-fns](https://date-fns.org/) - Date formatting
+- [React Hook Form](https://react-hook-form.com/) - Form handling and validation
 - [Framer Motion](https://www.framer.com/motion/) - Animations
+- [Jest](https://jestjs.io/) - Testing framework
+- [React Testing Library](https://testing-library.com/) - Component testing
 
-## 📁 Project Structure
-
-```
-src/
-├── app/
-│   ├── components/
-│   │   └── address-Input.tsx      # Address input with suggestions
-│   ├── context/
-│   │   ├── weather-context.tsx    # Weather context definition
-│   │   └── weather-provider.tsx   # Weather context provider
-│   ├── hooks/
-│   │   ├── useWeather.ts          # Custom hook for weather context
-│   │   └── wheater-api/queries/
-│   │       ├── use-weather-suggestions.ts  # Address suggestions query
-│   │       └── use-weather-forecast.ts     # Weather forecast query
-│   ├── services/
-│   │   └── weather.service.ts     # API service layer
-│   ├── utils/
-│   │   ├── constants/constants.ts # Weather icons and headers
-│   │   ├── helpers/date.helper.ts # Date formatting helper
-│   │   └── types/
-│   │       └── weather.type.ts    # TypeScript interfaces
-│   ├── weather/
-│   │   └── components/
-│   │       └── weather-forecast/
-│   │           └── weather-forecast.tsx    # Weather forecast card
-│   ├── providers/
-│   │   └── index.tsx              # App-level providers
-│   └── layout.tsx                 # Root layout
-```
-
-## 🌦️ Weather Context Architecture
-
-The app uses a global context to manage the selected location and its weather forecast. This allows any component to access or update the current location and forecast data.
-
-- **Context:** `WeatherContext` provides `{ location, setLocation, forecast }`.
-- **Provider:** `WeatherProvider` wraps the entire app and manages state and data fetching.
-- **Custom Hook:** `useWeather()` is used to access the context in any component.
-
-### Example Usage
-```tsx
-import { useWeather } from '@/app/hooks/useWeather';
-
-const MyComponent = () => {
-  const { location, forecast, setLocation } = useWeather();
-  // ...
-};
-```
-
-## 🔍 Address Search & Suggestions
-
-The `AddressInput` component provides real-time suggestions as you type, using a debounced query. Selecting a suggestion updates the global context and triggers a forecast fetch.
-
-- **Debounced input** (300ms)
-- **Loading and error states**
-- **Click to select a suggestion**
-
-## 📅 Weather Forecast Display
-
-The `WeatherForecast` component displays a 7-day forecast for the selected location. Each card shows:
-- Formatted date (e.g., "25 de junio de 2024")
-- Current, min, and max temperature
-- Precipitation
-- A large weather icon on the right, based on the forecast type
-
-### Weather Icons
-The icons are mapped in `src/app/utils/constants/constants.ts`:
+## Project Structure
 
 ```
-export const WEATHER_ICONS = {
-  clear: '☀️',
-  cloudy: '☁️',
-  rainy: '🌧️',
-  snowy: '❄️',
-  stormy: '⛈️',
-};
+auth-ui/
+├── src/
+│   └── app/
+│       ├── components/
+│       │   ├── feedback/
+│       │   │   ├── __tests__/
+│       │   │   │   └── feedback.test.tsx
+│       │   │   └── feedback.tsx
+│       │   └── form/
+│       │       ├── __tests__/
+│       │       │   └── form.test.tsx
+│       │       └── form.tsx
+│       ├── context/
+│       │   ├── auth-context.tsx
+│       │   └── auth-provider.tsx
+│       ├── home/
+│       │   ├── components/
+│       │   ├── page.tsx
+│       │   └── style.ts
+│       ├── hooks/
+│       │   ├── auth-api/
+│       │   │   └── mutations/
+│       │   │       ├── use-login.ts
+│       │   │       └── use-signup.ts
+│       │   └── use-auth.ts
+│       ├── layout.tsx
+│       ├── page.tsx
+│       ├── providers/
+│       │   └── index.tsx
+│       ├── services/
+│       │   └── auth.service.ts
+│       ├── signup/
+│       │   └── page.tsx
+│       └── utils/
+│           ├── constants/
+│           │   └── constants.ts
+│           └── types/
+│               ├── auth.type.ts
+│               ├── form-field.type.ts
+│               └── user.type.ts
+├── public/
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── coverage/
+├── .env.example
+├── jest.config.js
+├── jest.setup.js
+├── next.config.ts
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
-## 🚀 Quick Start
+## Authentication Flow
+
+The application implements a complete authentication system with the following features:
+
+### Login Page (`/`)
+- Email and password authentication
+- Form validation and error handling
+- Automatic redirection to home page on successful login
+- Link to signup page for new users
+
+### Signup Page (`/signup`)
+- User registration with first name, last name, email, and password
+- Form validation and error handling
+- Success message with automatic redirect to login
+- Link back to login page for existing users
+
+### Home Page (`/home`)
+- Protected route accessible only to authenticated users
+- Displays welcome message with user email
+- Logout functionality with automatic redirect to login
+- Automatic redirect to login if user is not authenticated
+
+## UI Components
+
+### Form Component
+A reusable form component that:
+- Accepts dynamic field definitions
+- Handles form validation
+- Supports different form types (login/signup)
+- Provides loading states during submission
+- Displays error messages
+
+### Feedback Component
+A versatile feedback component that:
+- Displays success and error messages
+- Supports different message types
+- Provides consistent styling across the app
+
+## Testing
+
+The project includes comprehensive testing setup:
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+Test files are co-located with their components:
+- `src/app/components/feedback/__tests__/feedback.test.tsx`
+- `src/app/components/form/__tests__/form.test.tsx`
+
+## Getting Started
 
 ### Prerequisites
 - Node.js (v18 or higher)
 - npm or yarn
-- Weather API running on `http://localhost:3000`
 
 ### Installation
 
-1. **Install dependencies:**
+1. **Clone the repository:**
+```bash
+git clone <repository-url>
+cd auth-ui
+```
+
+2. **Install dependencies:**
 ```bash
 npm install
 # or
 yarn install
 ```
 
-2. **Set up environment variables:**
+3. **Set up environment variables:**
 Create a `.env.local` file in the root directory:
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
-3. **Start the development server:**
+4. **Start the development server:**
 ```bash
 npm run dev
 # or
 yarn dev
 ```
 
-The application will be available at `http://localhost:3001`
+The application will be available at `http://localhost:3000`
 
-## 🔐 Authentication
+## Available Scripts
 
-The application requires authentication with the Weather API. Use these default credentials:
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm test` - Run tests
+- `npm run test:watch` - Run tests in watch mode
+- `npm run test:coverage` - Run tests with coverage report
 
-- **Username:** `admin` | **Password:** `password`
-- **Username:** `user` | **Password:** `password`
+## How to Use
 
-## 📱 Usage
+1. **Access the application** - Navigate to `http://localhost:3000`
+2. **Sign Up** - Click "Sign Up" to create a new account
+3. **Login** - Use your credentials to sign in
+4. **Access Protected Content** - View the home page with your user information
+5. **Logout** - Click the logout button to sign out
 
-1. **Login** - Enter your credentials to authenticate with the Weather API
-2. **Search Addresses** - Start typing an address in the input field
-3. **View Suggestions** - Real-time suggestions will appear as you type
-4. **Select Location** - Click on a suggestion to select it
-5. **View Forecast** - The 7-day weather forecast will be displayed with icons
+## API Integration
 
-## 🔧 API Integration
+The application integrates with authentication API endpoints:
 
-The application integrates with the Weather API endpoints:
+- `POST /auth/login` - User authentication
+- `POST /auth/signup` - User registration
 
-- `POST /auth/login` - Authentication
-- `GET /geocoding/suggestions` - Address suggestions (requires auth)
-- `GET /weather/forecast` - Weather forecast (requires auth)
+## Styling
 
-## 🎨 UI Components
+The application uses Chakra UI for consistent styling and theming:
+- Responsive design that works on all devices
+- Dark/light theme support
+- Accessible components
+- Modern UI patterns
 
-### AddressInput
-A smart input component that:
-- Shows real-time suggestions as you type
-- Debounces API calls (300ms delay)
-- Displays loading states
-- Handles errors gracefully
-- Closes on outside click
-- Updates the global weather context
-
-### WeatherForecast
-A forecast card that:
-- Shows the selected location
-- Displays a 7-day forecast with formatted dates
-- Shows a large weather icon for each day
-- Uses a responsive, modern layout
-
-## 🚀 Deployment
+## Deployment
 
 ### Production Build
 
@@ -184,18 +222,18 @@ npm run start
 Make sure to set the correct API URL for your production environment:
 
 ```env
-NEXT_PUBLIC_API_URL=https://your-weather-api.com
+NEXT_PUBLIC_API_URL=https://your-api-url.com
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
 
