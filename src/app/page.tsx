@@ -4,13 +4,13 @@
 import {Box, Heading, Link, Text} from "@chakra-ui/react";
 import NextLink from "next/link";
 import {useEffect, useState} from "react";
-import {useAuth} from "@/app/context/auth-context";
 import {useRouter} from "next/navigation";
 import {useLogin} from "@/app/hooks/auth-api/mutations/use-login";
 import {LOGIN} from "@/app/utils/constants/constants";
 import Form from "@/app/components/form/form";
 import {FormField} from "@/app/utils/types/form-field.type";
 import Feedback from "@/app/components/feedback/feedback";
+import {useAuth} from "@/app/hooks/use-auth";
 
 const loginFields: FormField[] = [
     {name: "email", type: "email", label: "Email", required: true},

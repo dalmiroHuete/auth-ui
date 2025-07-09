@@ -3,12 +3,12 @@
 import {Box, Heading, Link, Text} from "@chakra-ui/react";
 import NextLink from "next/link";
 import {useEffect, useState} from "react";
-import {useAuth} from "@/app/context/auth-context";
 import {useRouter} from "next/navigation";
 import {useSignup} from "@/app/hooks/auth-api/mutations/use-signup";
 import Form from "@/app/components/form/form";
 import {FormField} from "@/app/utils/types/form-field.type";
 import Feedback from "@/app/components/feedback/feedback";
+import {useAuth} from "@/app/hooks/use-auth";
 
 const signupFields: FormField[] = [
     {name: "firstName", type: "text", label: "First Name", required: true},
