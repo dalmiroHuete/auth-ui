@@ -41,16 +41,16 @@ export default function SignupPage() {
 
     if (user) return null;
 
-    const onSubmit = (values: Record<string, any>) => {
+    const onSubmit = (values: Record<string, unknown>) => {
         setFormError("");
         setSuccessMessage("");
-        
+
         signupMutation.mutate(values as { firstName: string; lastName: string; email: string; password: string }, {
-            onSuccess: (data) => {
+            onSuccess: () => {
                 setSuccessMessage("Profile created successfully! Redirecting to login...");
             },
-            onError: (error: any) => {
-                setFormError(error.message || "Signup failed");
+            onError: (error: unknown) => {
+                setFormError(error instanceof Error ? error.message : "Signup failed");
             },
         });
     };
@@ -58,8 +58,8 @@ export default function SignupPage() {
     return (
         <Box maxW="md" mx="auto" mt={20} p={8} borderWidth={1} borderRadius="lg" boxShadow="lg">
             <Heading mb={4} textAlign="center">Sign Up</Heading>
-            <Feedback message={formError} type="error" />
-            <Feedback message={successMessage} type="success" />
+            <Feedback message={formError} type="error"/>
+            <Feedback message={successMessage} type="success"/>
             <Form
                 formDefinition={signupFields}
                 type="signup"

@@ -1,7 +1,7 @@
 // TODO: If user is authenticated, redirect to /home
 "use client";
 
-import {Box, Heading, Text, Link} from "@chakra-ui/react";
+import {Box, Heading, Link, Text} from "@chakra-ui/react";
 import NextLink from "next/link";
 import {useEffect, useState} from "react";
 import {useAuth} from "@/app/context/auth-context";
@@ -30,15 +30,15 @@ export default function LoginPage() {
     }, [user, router]);
     if (user) return null;
 
-    const onSubmit = (values: Record<string, any>) => {
+    const onSubmit = (values: Record<string, unknown>) => {
         setFormError("");
         loginMutation.mutate(values as { email: string; password: string }, {
             onSuccess: (data) => {
                 login(data);
                 router.push("/home");
             },
-            onError: (error: any) => {
-                setFormError(error.message || "Login failed");
+            onError: (error: unknown) => {
+                setFormError(error instanceof Error ? error.message : "Login failed");
             },
         });
     };
@@ -46,7 +46,7 @@ export default function LoginPage() {
     return (
         <Box maxW="md" mx="auto" mt={20} p={8} borderWidth={1} borderRadius="lg" boxShadow="lg">
             <Heading mb={4} textAlign="center">Sign In</Heading>
-            <Feedback message={formError} type="error" />
+            <Feedback message={formError} type="error"/>
             <Form
                 formDefinition={loginFields}
                 type="login"

@@ -1,7 +1,7 @@
-import type {NextConfig} from "next";
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    // No redirects. The login page is at '/'.
+  output: "export",
 };
 
 export default nextConfig;

@@ -21,7 +21,7 @@ const mockTheme = {
 
 const renderWithChakra = (component: React.ReactElement) => {
     return render(
-        <ChakraProvider theme={mockTheme as any}>
+        <ChakraProvider theme={mockTheme as never}>
             {component}
         </ChakraProvider>
     )
@@ -68,14 +68,14 @@ describe('Feedback Component', () => {
     })
 
     it('should not render when message is null', () => {
-        renderWithChakra(<Feedback type="error" message={null as any}/>)
+        renderWithChakra(<Feedback type="error" message={null as never}/>)
 
         // Component should not render when message is null
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
 
     it('should not render when message is undefined', () => {
-        renderWithChakra(<Feedback type="error" message={undefined as any}/>)
+        renderWithChakra(<Feedback type="error" message={undefined as never}/>)
 
         // Component should not render when message is undefined
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()

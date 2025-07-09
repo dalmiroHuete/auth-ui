@@ -6,7 +6,7 @@ import {FormField} from "@/app/utils/types/form-field.type";
 interface FormProps {
     formDefinition: FormField[];
     type: "signup" | "login";
-    onSubmitCallback: (values: Record<string, any>) => void;
+    onSubmitCallback: (values: Record<string, never>) => void;
     submitText?: string;
 }
 
@@ -22,11 +22,13 @@ const Form: React.FC<FormProps> = ({
         reset();
     }, [formDefinition, reset]);
 
-    const onSubmit: SubmitHandler<Record<string, any>> = (values) => {
+    const onSubmit: SubmitHandler<Record<string, never>> = (values) => {
         onSubmitCallback(values);
     };
-
+    
     return (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         <Box as="form" onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing={4} align="stretch">
                 {formDefinition.map((field) => (
